@@ -13,5 +13,5 @@ import java.util.List;
  * @author Uwe Hennig
  */
 public interface GraphGenerator {
-    List<Graph> generate(int interations, Graph initialGraph);
+    List<Graph> generate(int iterations, Graph initialGraph);
 }

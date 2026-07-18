@@ -31,7 +31,7 @@ public class RingGraphGenerator implements GraphGenerator {
     }
 
     @Override
-    public List<Graph> generate(int interations, Graph initialGraph) {
+    public List<Graph> generate(int iterations, Graph initialGraph) {
         List<Graph> result = new ArrayList<>();
 
         List<Edge> filteredEdges = selectionRule != null ? selectionRule.apply(initialGraph.edges()) : initialGraph.edges();
@@ -52,7 +52,7 @@ public class RingGraphGenerator implements GraphGenerator {
 
             int currentNodeId = startNodeId;
 
-            for (int i = 0; i < interations - 1; i++) {
+            for (int i = 0; i < iterations - 1; i++) {
                 resultingEdges.add(createEdge(context, currentNodeId, currentNodeId = context.nextNodeId()));
             }
             resultingEdges.add(createEdge(context, currentNodeId, endNodeId));

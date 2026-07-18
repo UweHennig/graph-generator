@@ -17,7 +17,7 @@ import com.uwe_hennig.graph.generator.contracts.GraphGenerator;
  */
 public class EmptyGraphGenerator implements GraphGenerator {
     @Override
-    public List<Graph> generate(int interations, Graph initialGraph) {
+    public List<Graph> generate(int iterations, Graph initialGraph) {
         return List.of();
     }
 }
