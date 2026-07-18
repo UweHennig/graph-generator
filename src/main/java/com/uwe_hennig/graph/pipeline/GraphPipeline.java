@@ -72,6 +72,10 @@ public class GraphPipeline {
         return this;
     }
 
+    public Graph build() {
+        return masterGraph;
+    }
+
     private void integrate(List<Graph> layers) {
         for (Graph g : layers) {
             masterGraph.addAllEdges(g.edges());
