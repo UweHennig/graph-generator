@@ -1,4 +1,4 @@
-name: SNN-AI Java Build
+name: Graph-Generator Java Build
 
 on:
   push:
