@@ -5,6 +5,7 @@
  */
 package com.uwe_hennig.graph.generator.contracts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,10 @@ import java.util.List;
  * @author Uwe Hennig
  */
 public record Graph(GraphContext context, List<Edge> edges) {
+    public static Graph of(GraphContext context) {
+        return new Graph(context, new ArrayList<>());
+    }
+
     public Graph addEdge(Edge edge) {
         edges.add(edge);
         return this;

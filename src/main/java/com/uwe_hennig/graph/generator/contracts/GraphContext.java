@@ -26,15 +26,15 @@ public class GraphContext {
         return ++edgeId;
     }
 
-    boolean isUsedEdge(int edgeId) {
+    public boolean isUsedEdge(int edgeId) {
         return usedEdges.get(edgeId);
     }
 
-    void setUnuseEdge(int edgeId) {
+    public void setUnuseEdge(int edgeId) {
         usedEdges.clear(edgeId);
     }
 
-    void setUsedEdge(int edgeId) {
+    public void setUsedEdge(int edgeId) {
         usedEdges.set(edgeId);
     }
 }
