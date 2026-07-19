@@ -5,7 +5,9 @@
  */
 package com.uwe_hennig.graph.rule;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import com.uwe_hennig.graph.generator.contracts.Edge;
@@ -16,18 +18,8 @@ import com.uwe_hennig.graph.generator.contracts.SelectionRule;
  *
  * @author Uwe Hennig
  */
-public class CompositeRule implements SelectionRule {
+public record CompositeRule(SelectionRule left, SelectionRule right, Type type) implements SelectionRule {
     public enum Type { AND, OR, XOR }
-
-    private final SelectionRule left;
-    private final SelectionRule right;
-    private final Type type;
-
-    public CompositeRule(SelectionRule left, SelectionRule right, Type type) {
-        this.left = left;
-        this.right = right;
-        this.type = type;
-    }
 
     @Override
     public List<Edge> apply(List<Edge> edges) {
@@ -35,12 +27,21 @@ public class CompositeRule implements SelectionRule {
         List<Edge> b = right.apply(edges);
 
         return switch (type) {
-            case AND -> a.stream().filter(b::contains).toList();
-            case OR  -> Stream.concat(a.stream(), b.stream()).distinct().toList();
-            case XOR -> Stream.concat(a.stream(), b.stream())
-                              .filter(e -> !(a.contains(e) && b.contains(e)))
-                              .distinct()
-                              .toList();
+            case AND -> {
+                Set<Edge> setB = new HashSet<>(b);
+                yield a.stream().filter(setB::contains).toList();
+            }
+            case OR -> Stream.concat(a.stream(), b.stream())
+                            .distinct()
+                            .toList();
+            case XOR -> {
+                Set<Edge> setA = new HashSet<>(a);
+                Set<Edge> setB = new HashSet<>(b);
+                yield Stream.concat(
+                        a.stream().filter(e -> !setB.contains(e)),
+                        b.stream().filter(e -> !setA.contains(e))
+                ).distinct().toList();
+            }
         };
     }
 }
