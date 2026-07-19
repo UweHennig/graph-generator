@@ -31,7 +31,7 @@ public class FanOutGraphGenerator  implements GraphGenerator {
     }
 
     @Override
-    public List<Graph> generate(int iterations, Graph initialGraph) {
+    public List<Graph> generate(Graph initialGraph) {
         List<Graph> result = new ArrayList<>();
 
         if (initialGraph == null || initialGraph.edges().isEmpty()) {

@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 import com.uwe_hennig.graph.generator.contracts.Graph;
-import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.generator.contracts.GraphGenerator;
-import com.uwe_hennig.graph.generator.contracts.SelectionRule;
 
 /**
  * AlternatingGraphGenerator
@@ -20,26 +18,23 @@ import com.uwe_hennig.graph.generator.contracts.SelectionRule;
  * @author Uwe Hennig
  */
 public class AlternatingGraphGenerator implements GraphGenerator {
-    private final GraphContext context;
-
     private final GraphGenerator generatorA;
     private final GraphGenerator generatorB;
 
     private Stack<Graph> stackA = new Stack<>();
     private Stack<Graph> stackB = new Stack<>();
 
-    private int iterations;
+    private final int iterations;
 
-    public AlternatingGraphGenerator(GraphContext context, GraphGenerator generatorA, GraphGenerator generatorB) {
-        this.context = context;
+    public AlternatingGraphGenerator(int iterations, GraphGenerator generatorA, GraphGenerator generatorB) {
         this.generatorA = generatorA;
         this.generatorB = generatorB;
+        this.iterations = iterations;
     }
 
     @Override
-    public List<Graph> generate(int iterations, Graph initialGraph) {
-        stackA.push(initialGraph);
-        this.iterations = iterations;
+    public List<Graph> generate(Graph initialGraph) {
+        stackB.push(initialGraph);
         return generate();
     }
 
@@ -51,7 +46,7 @@ public class AlternatingGraphGenerator implements GraphGenerator {
             // Phase A -> B
             while (!stackA.isEmpty()) {
                 Graph currentLayer = stackA.pop();
-                List<Graph> nextLayers = generatorB.generate(1, currentLayer);
+                List<Graph> nextLayers = generatorB.generate(currentLayer);
 
                 if (nextLayers != null) {
                     resultingGraphList.addAll(nextLayers);
@@ -65,7 +60,7 @@ public class AlternatingGraphGenerator implements GraphGenerator {
             // Phase B -> A
             while (!stackB.isEmpty()) {
                 Graph currentLayer = stackB.pop();
-                List<Graph> nextLayers = generatorA.generate(1, currentLayer);
+                List<Graph> nextLayers = generatorA.generate(currentLayer);
 
                 if (nextLayers != null) {
                     resultingGraphList.addAll(nextLayers);

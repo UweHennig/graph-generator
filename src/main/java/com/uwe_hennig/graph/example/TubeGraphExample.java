@@ -24,7 +24,7 @@ public class TubeGraphExample {
         GraphContext context = new GraphContext();
         UnusedRule unusedRule = new UnusedRule(context);
 
-        LineGraphGenerator lineGenerator = new LineGraphGenerator(context, unusedRule);
+        LineGraphGenerator lineGenerator = new LineGraphGenerator(3, context, unusedRule);
         FanOutGraphGenerator initGenerator = new FanOutGraphGenerator(context, unusedRule, 2);
 
         FanInGraphGenerator finalizerGenerator = new FanInGraphGenerator(context, unusedRule);

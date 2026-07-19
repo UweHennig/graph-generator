@@ -23,13 +23,16 @@ public class LineGraphGenerator implements GraphGenerator {
     private final GraphContext  context;
     private final SelectionRule selectionRule;
 
-    public LineGraphGenerator(GraphContext context, SelectionRule selectionRule) {
+    private int iterations;
+
+    public LineGraphGenerator(int iterations, GraphContext context, SelectionRule selectionRule) {
         this.context = context;
         this.selectionRule = selectionRule;
+        this.iterations = iterations;
     }
 
     @Override
-    public List<Graph> generate(int iterations, Graph initialGraph) {
+    public List<Graph> generate(Graph initialGraph) {
         List<Graph> result = new ArrayList<>();
 
         if (initialGraph == null || initialGraph.edges().isEmpty()) {

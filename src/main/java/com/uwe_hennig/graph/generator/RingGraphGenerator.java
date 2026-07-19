@@ -22,16 +22,16 @@ import com.uwe_hennig.graph.generator.contracts.SelectionRule;
 public class RingGraphGenerator implements GraphGenerator {
     private final GraphContext  context;
     private final SelectionRule selectionRule;
-    private final boolean clockwise;
+    private final int           iterations;
 
-    public RingGraphGenerator(GraphContext context, boolean clockwise, SelectionRule selectionRule) {
+    public RingGraphGenerator(int iterations, GraphContext context, SelectionRule selectionRule) {
         this.context = context;
         this.selectionRule = selectionRule;
-        this.clockwise = clockwise;
+        this.iterations = iterations;
     }
 
     @Override
-    public List<Graph> generate(int iterations, Graph initialGraph) {
+    public List<Graph> generate(Graph initialGraph) {
         List<Graph> result = new ArrayList<>();
 
         List<Edge> filteredEdges = selectionRule != null ? selectionRule.apply(initialGraph.edges()) : initialGraph.edges();
@@ -47,8 +47,8 @@ public class RingGraphGenerator implements GraphGenerator {
             Edge currentEdge = edge;
             context.setUsedEdge(currentEdge.edgeId());
 
-            int startNodeId = clockwise ? currentEdge.nodeToId() : currentEdge.nodeFromId();
-            int endNodeId = clockwise ? currentEdge.nodeFromId() : currentEdge.nodeToId();
+            int startNodeId = currentEdge.nodeToId();
+            int endNodeId = currentEdge.nodeFromId();
 
             int currentNodeId = startNodeId;
 
@@ -57,10 +57,10 @@ public class RingGraphGenerator implements GraphGenerator {
             }
             resultingEdges.add(createEdge(context, currentNodeId, endNodeId));
             resultingGraph.addAllEdges(resultingEdges);
+            resultingEdges.clear();
 
             result.add(resultingGraph);
         }
-
 
         return result;
     }

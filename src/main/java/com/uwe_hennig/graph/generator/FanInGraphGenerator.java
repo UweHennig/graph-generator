@@ -28,7 +28,7 @@ public class FanInGraphGenerator implements GraphGenerator {
     }
 
     @Override
-    public List<Graph> generate(int iterations, Graph initialGraph) {
+    public List<Graph> generate(Graph initialGraph) {
         if (initialGraph == null) {
             return List.of();
         }
@@ -52,5 +52,4 @@ public class FanInGraphGenerator implements GraphGenerator {
 
         return List.of(graph);
     }
-
 }

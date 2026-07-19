@@ -33,7 +33,7 @@ public class GraphPipeline {
     public static GraphPipeline start(GraphGenerator initializer) {
         GraphPipeline pipeline = new GraphPipeline();
 
-        pipeline.currentLayers = initializer.generate(1, Graph.of(pipeline.context));
+        pipeline.currentLayers = initializer.generate(Graph.of(pipeline.context));
         pipeline.integrate(pipeline.currentLayers);
         pipeline.order = 0;
         return pipeline;
@@ -47,7 +47,7 @@ public class GraphPipeline {
         order = 1;
         List<Graph> totalGraphs = new ArrayList<>();
         for (Graph graph : currentLayers) {
-            List<Graph> currentGeneratedGraphs = subGraph.generate(depth, graph);
+            List<Graph> currentGeneratedGraphs = subGraph.generate(graph);
             totalGraphs.addAll(currentGeneratedGraphs);
         }
 
@@ -67,7 +67,7 @@ public class GraphPipeline {
         for (Graph layerGraph: currentLayers) {
             resultEdges.addAll(layerGraph.edges());
         }
-        integrate(finalizer.generate(1, new Graph(this.context, resultEdges)));
+        integrate(finalizer.generate(new Graph(this.context, resultEdges)));
 
         return this;
     }
