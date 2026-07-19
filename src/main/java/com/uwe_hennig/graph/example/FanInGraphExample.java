@@ -5,14 +5,14 @@
  */
 package com.uwe_hennig.graph.example;
 
+import static com.uwe_hennig.graph.generator.contracts.SelectionRule.unusedRule;
+
 import com.uwe_hennig.graph.generator.EmptyGraphGenerator;
 import com.uwe_hennig.graph.generator.FanInGraphGenerator;
 import com.uwe_hennig.graph.generator.FanOutGraphGenerator;
 import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
-import com.uwe_hennig.graph.generator.contracts.SelectionRule;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
-import com.uwe_hennig.graph.rule.UnusedRule;
 import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
@@ -23,12 +23,11 @@ import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 public class FanInGraphExample {
     public static void main(String[] args) {
         GraphContext context = new GraphContext();
-        SelectionRule selectionRule = new UnusedRule(context);
 
         EmptyGraphGenerator empty = new EmptyGraphGenerator();
 
-        FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, selectionRule, 5);
-        FanInGraphGenerator fanIn = new FanInGraphGenerator(context, selectionRule);
+        FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, unusedRule(context), 5);
+        FanInGraphGenerator fanIn = new FanInGraphGenerator(context, unusedRule(context));
 
         GraphPipeline pipeline = GraphPipeline.start(fanOut);
 

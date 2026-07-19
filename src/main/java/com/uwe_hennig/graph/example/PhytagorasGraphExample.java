@@ -5,6 +5,9 @@
  */
 package com.uwe_hennig.graph.example;
 
+import static com.uwe_hennig.graph.generator.contracts.SelectionRule.nthRule;
+import static com.uwe_hennig.graph.generator.contracts.SelectionRule.unusedRule;
+
 import com.uwe_hennig.graph.generator.AlternatingGraphGenerator;
 import com.uwe_hennig.graph.generator.EmptyGraphGenerator;
 import com.uwe_hennig.graph.generator.LineGraphGenerator;
@@ -12,8 +15,6 @@ import com.uwe_hennig.graph.generator.RingGraphGenerator;
 import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
-import com.uwe_hennig.graph.rule.NthRule;
-import com.uwe_hennig.graph.rule.UnusedRule;
 import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
@@ -25,13 +26,11 @@ public class PhytagorasGraphExample {
 
     public static void main(String[] args) {
         GraphContext context = new GraphContext();
-        UnusedRule unusedRule = new UnusedRule(context);
-        NthRule nthRule = new NthRule(2);
 
-        LineGraphGenerator initialGraphGenerator = new LineGraphGenerator(1, context, unusedRule);
+        LineGraphGenerator initialGraphGenerator = new LineGraphGenerator(1, context, unusedRule(context));
 
-        RingGraphGenerator squareGenerator = new RingGraphGenerator(3, context, unusedRule);
-        RingGraphGenerator triangleGenerator = new RingGraphGenerator(2, context, nthRule);
+        RingGraphGenerator squareGenerator = new RingGraphGenerator(3, context, unusedRule(context));
+        RingGraphGenerator triangleGenerator = new RingGraphGenerator(2, context, nthRule(2));
 
         AlternatingGraphGenerator graphGnerator = new AlternatingGraphGenerator(3, squareGenerator,  triangleGenerator);
 

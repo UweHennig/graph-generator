@@ -5,13 +5,14 @@
  */
 package com.uwe_hennig.graph.example;
 
+import static com.uwe_hennig.graph.generator.contracts.SelectionRule.unusedRule;
+
 import com.uwe_hennig.graph.generator.FanInGraphGenerator;
 import com.uwe_hennig.graph.generator.FanOutGraphGenerator;
 import com.uwe_hennig.graph.generator.LineGraphGenerator;
 import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
-import com.uwe_hennig.graph.rule.UnusedRule;
 import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
@@ -22,12 +23,11 @@ import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 public class TubeGraphExample {
     public static void main(String[] args) {
         GraphContext context = new GraphContext();
-        UnusedRule unusedRule = new UnusedRule(context);
 
-        LineGraphGenerator lineGenerator = new LineGraphGenerator(3, context, unusedRule);
-        FanOutGraphGenerator initGenerator = new FanOutGraphGenerator(context, unusedRule, 2);
+        LineGraphGenerator lineGenerator = new LineGraphGenerator(3, context, unusedRule(context));
+        FanOutGraphGenerator initGenerator = new FanOutGraphGenerator(context, unusedRule(context), 2);
 
-        FanInGraphGenerator finalizerGenerator = new FanInGraphGenerator(context, unusedRule);
+        FanInGraphGenerator finalizerGenerator = new FanInGraphGenerator(context, unusedRule(context));
 
         GraphPipeline pipeline = GraphPipeline.start(initGenerator);
         pipeline.generate(5, lineGenerator);

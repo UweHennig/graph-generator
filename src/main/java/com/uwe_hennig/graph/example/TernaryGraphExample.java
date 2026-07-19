@@ -5,12 +5,13 @@
  */
 package com.uwe_hennig.graph.example;
 
+import static com.uwe_hennig.graph.generator.contracts.SelectionRule.ALL_RULE;
+
 import com.uwe_hennig.graph.generator.EmptyGraphGenerator;
 import com.uwe_hennig.graph.generator.FanOutGraphGenerator;
 import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
-import com.uwe_hennig.graph.rule.AllRule;
 import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
@@ -21,8 +22,7 @@ import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 public class TernaryGraphExample {
     public static void main(String[] args) {
         GraphContext context = new GraphContext();
-        AllRule all = new AllRule();
-        FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, all, 3);
+        FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, ALL_RULE, 3);
 
         GraphPipeline pipeline = GraphPipeline.start(fanOut);
 
