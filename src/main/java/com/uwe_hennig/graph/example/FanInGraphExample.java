@@ -29,11 +29,10 @@ public class FanInGraphExample {
         FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, unusedRule(context), 5);
         FanInGraphGenerator fanIn = new FanInGraphGenerator(context, unusedRule(context));
 
-        GraphPipeline pipeline = GraphPipeline.start(fanOut);
-
-        pipeline.generate(1, fanIn);
-        pipeline.finalize(empty);
-        Graph graph = pipeline.build();
+        Graph graph = GraphPipeline.start(fanOut)
+            .generate(fanIn)
+            .finalizeStep(empty)
+            .build();
 
         GraphvizConsolePrinter.printToConsole(context, graph);
     }

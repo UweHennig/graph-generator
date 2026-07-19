@@ -29,11 +29,11 @@ public class TubeGraphExample {
 
         FanInGraphGenerator finalizerGenerator = new FanInGraphGenerator(context, unusedRule(context));
 
-        GraphPipeline pipeline = GraphPipeline.start(initGenerator);
-        pipeline.generate(5, lineGenerator);
-        pipeline.finalize(finalizerGenerator);
-        Graph tubeGraph = pipeline.build();
+        Graph graph = GraphPipeline.start(initGenerator)
+            .generate(lineGenerator)
+            .finalizeStep(finalizerGenerator)
+            .build();
 
-        GraphvizConsolePrinter.printToConsole(context, tubeGraph);
+        GraphvizConsolePrinter.printToConsole(context, graph);
     }
 }

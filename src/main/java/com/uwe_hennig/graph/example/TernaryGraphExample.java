@@ -24,11 +24,10 @@ public class TernaryGraphExample {
         GraphContext context = new GraphContext();
         FanOutGraphGenerator fanOut = new FanOutGraphGenerator(context, ALL_RULE, 3);
 
-        GraphPipeline pipeline = GraphPipeline.start(fanOut);
-
-        pipeline.generate(0, fanOut);
-        pipeline.finalize(new EmptyGraphGenerator());
-        Graph graph = pipeline.build();
+        Graph graph = GraphPipeline.start(fanOut)
+            .generate(fanOut)
+            .finalizeStep(new EmptyGraphGenerator())
+            .build();
 
         GraphvizConsolePrinter.printToConsole(context, graph);
     }

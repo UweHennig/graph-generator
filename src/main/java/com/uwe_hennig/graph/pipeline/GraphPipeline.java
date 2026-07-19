@@ -19,67 +19,68 @@ import com.uwe_hennig.graph.generator.contracts.GraphGenerator;
  * @author Uwe Hennig
  */
 public class GraphPipeline {
-    private final GraphContext context;
-    private final Graph        masterGraph;
+    private final GraphContext context     = new GraphContext();
+    private final Graph        masterGraph = new Graph(context, new ArrayList<>());
 
     private List<Graph> currentLayers = new ArrayList<>();
-    private int         order         = -1;
 
     private GraphPipeline() {
-        context = new GraphContext();
-        masterGraph = new Graph(context, new ArrayList<>());
     }
 
-    public static GraphPipeline start(GraphGenerator initializer) {
-        GraphPipeline pipeline = new GraphPipeline();
+    // --- Interface pipeline steps ---
+    public interface StageAfterStart {
+        StageAfterGenerate generate(GraphGenerator subGraph);
+    }
 
+    public interface StageAfterGenerate {
+        StageAfterGenerate generate(GraphGenerator subGraph);
+        StageAfterFinalize finalizeStep(GraphGenerator finalizer);
+        Graph build();
+    }
+
+    public interface StageAfterFinalize {
+        Graph build();
+    }
+
+    // --- step implementations ---
+    // Entry point
+    public static StageAfterStart start(GraphGenerator initializer) {
+        GraphPipeline pipeline = new GraphPipeline();
         pipeline.currentLayers = initializer.generate(Graph.of(pipeline.context));
         pipeline.integrate(pipeline.currentLayers);
-        pipeline.order = 0;
-        return pipeline;
+        return pipeline.new PipelineSteps();
     }
 
-    public GraphPipeline generate(int depth, GraphGenerator subGraph) {
-        if (order != 0) {
-            throw new IllegalStateException("invalid calling order");
+    private class PipelineSteps implements StageAfterStart, StageAfterGenerate, StageAfterFinalize {
+        @Override
+        public StageAfterGenerate generate(GraphGenerator subGraph) {
+            currentLayers = currentLayers.stream()
+                    .flatMap(g -> subGraph.generate(g).stream())
+                    .toList();
+            integrate(currentLayers);
+            return this;
         }
 
-        order = 1;
-        List<Graph> totalGraphs = new ArrayList<>();
-        for (Graph graph : currentLayers) {
-            List<Graph> currentGeneratedGraphs = subGraph.generate(graph);
-            totalGraphs.addAll(currentGeneratedGraphs);
+        @Override
+        public StageAfterFinalize finalizeStep(GraphGenerator finalizer) {
+            List<Edge> allEdgesFromLayers = currentLayers.stream()
+                .flatMap(g -> g.edges().stream())
+                .distinct()
+                .toList();
+
+            List<Graph> finalResult = finalizer.generate(new Graph(context, allEdgesFromLayers));
+            integrate(finalResult);
+            return this;
         }
 
-        integrate(totalGraphs);
-        currentLayers = totalGraphs;
-        return this;
-    }
-
-    public GraphPipeline finalize(GraphGenerator finalizer) {
-        if (order != 1) {
-            throw new IllegalStateException("invalid calling order");
+        @Override
+        public Graph build() {
+            return masterGraph;
         }
-
-        order = 2;
-
-        List<Edge> resultEdges = new ArrayList<>();
-        for (Graph layerGraph: currentLayers) {
-            resultEdges.addAll(layerGraph.edges());
-        }
-        integrate(finalizer.generate(new Graph(this.context, resultEdges)));
-
-        return this;
-    }
-
-    public Graph build() {
-        return masterGraph;
     }
 
     private void integrate(List<Graph> layers) {
-        for (Graph g : layers) {
-            masterGraph.addAllEdges(g.edges());
-        }
+        layers.forEach(g -> masterGraph.addAllEdges(g.edges()));
     }
 
 }

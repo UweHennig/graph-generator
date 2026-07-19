@@ -32,16 +32,16 @@ public class PhytagorasGraphExample {
         RingGraphGenerator squareGenerator = new RingGraphGenerator(3, context, unusedRule(context));
         RingGraphGenerator triangleGenerator = new RingGraphGenerator(2, context, nthRule(2));
 
-        AlternatingGraphGenerator graphGnerator = new AlternatingGraphGenerator(3, squareGenerator,  triangleGenerator);
+        AlternatingGraphGenerator graphGnerator = new AlternatingGraphGenerator(2, squareGenerator,  triangleGenerator);
 
         EmptyGraphGenerator finalGenerator = new EmptyGraphGenerator();
 
-        GraphPipeline pipeline = GraphPipeline.start(initialGraphGenerator);
-        pipeline.generate(5, graphGnerator);
-        pipeline.finalize(finalGenerator);
-        Graph pythagorasFractalGraph = pipeline.build();
+        Graph graph = GraphPipeline.start(initialGraphGenerator)
+            .generate(graphGnerator)
+            .finalizeStep(finalGenerator)
+            .build();
 
-        GraphvizConsolePrinter.printToConsole(context, pythagorasFractalGraph);
+        GraphvizConsolePrinter.printToConsole(context, graph);
     }
 
 }
