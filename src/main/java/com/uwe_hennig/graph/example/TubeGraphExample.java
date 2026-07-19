@@ -12,7 +12,7 @@ import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
 import com.uwe_hennig.graph.rule.UnusedRule;
-import com.uwe_hennig.graph.util.GraphviConsolePrinter;
+import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
  * TubeGraphExample
@@ -34,6 +34,6 @@ public class TubeGraphExample {
         pipeline.finalize(finalizerGenerator);
         Graph tubeGraph = pipeline.build();
 
-        GraphviConsolePrinter.printToConsole(context, tubeGraph);
+        GraphvizConsolePrinter.printToConsole(context, tubeGraph);
     }
 }

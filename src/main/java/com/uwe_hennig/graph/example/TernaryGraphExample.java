@@ -11,7 +11,7 @@ import com.uwe_hennig.graph.generator.contracts.Graph;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
 import com.uwe_hennig.graph.rule.AllRule;
-import com.uwe_hennig.graph.util.GraphviConsolePrinter;
+import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
  * TernaryGraphExample
@@ -30,6 +30,6 @@ public class TernaryGraphExample {
         pipeline.finalize(new EmptyGraphGenerator());
         Graph graph = pipeline.build();
 
-        GraphviConsolePrinter.printToConsole(context, graph);
+        GraphvizConsolePrinter.printToConsole(context, graph);
     }
 }

@@ -1,5 +1,5 @@
 /**
- * @(#)GraphviConsolePrinter.java
+ * @(#)GraphvizConsolePrinter.java
  * Copyright (c) 2026 Uwe Hennig
  * All rights reserved.
  */
@@ -10,11 +10,11 @@ import com.uwe_hennig.graph.generator.contracts.Edge;
 import com.uwe_hennig.graph.generator.contracts.GraphContext;
 
 /**
- * GraphviConsolePrinter
+ * GraphvizConsolePrinter
  *
  * @author Uwe Hennig
  */
-public class GraphviConsolePrinter {
+public class GraphvizConsolePrinter {
 
     public static void printToConsole(GraphContext context, Graph graph) {
         StringBuilder builder = new StringBuilder();

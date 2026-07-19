@@ -14,7 +14,7 @@ import com.uwe_hennig.graph.generator.contracts.GraphContext;
 import com.uwe_hennig.graph.pipeline.GraphPipeline;
 import com.uwe_hennig.graph.rule.NthRule;
 import com.uwe_hennig.graph.rule.UnusedRule;
-import com.uwe_hennig.graph.util.GraphviConsolePrinter;
+import com.uwe_hennig.graph.util.GraphvizConsolePrinter;
 
 /**
  * PhytagorasGraphExample
@@ -42,7 +42,7 @@ public class PhytagorasGraphExample {
         pipeline.finalize(finalGenerator);
         Graph pythagorasFractalGraph = pipeline.build();
 
-        GraphviConsolePrinter.printToConsole(context, pythagorasFractalGraph);
+        GraphvizConsolePrinter.printToConsole(context, pythagorasFractalGraph);
     }
 
 }
