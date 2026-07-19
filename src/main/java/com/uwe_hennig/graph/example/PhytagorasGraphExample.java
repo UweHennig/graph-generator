@@ -33,7 +33,7 @@ public class PhytagorasGraphExample {
         RingGraphGenerator squareGenerator = new RingGraphGenerator(3, context, unusedRule);
         RingGraphGenerator triangleGenerator = new RingGraphGenerator(2, context, nthRule);
 
-        AlternatingGraphGenerator graphGnerator = new AlternatingGraphGenerator(2, squareGenerator,  triangleGenerator);
+        AlternatingGraphGenerator graphGnerator = new AlternatingGraphGenerator(3, squareGenerator,  triangleGenerator);
 
         EmptyGraphGenerator finalGenerator = new EmptyGraphGenerator();
 

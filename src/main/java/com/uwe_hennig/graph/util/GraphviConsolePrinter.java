@@ -18,17 +18,23 @@ public class GraphviConsolePrinter {
 
     public static void printToConsole(GraphContext context, Graph graph) {
         StringBuilder builder = new StringBuilder();
-        builder.append("digraph SNN {\n")
-            .append("node [shape=none];\n")
-            .append("layout = neato;\n")
-            .append("edge [arrowhead=empty color=red];\n");
+        builder.append("digraph SNN {\n");
 
-        for (Edge edge : graph.edges()) {
-            if (context.isUsedEdge(edge.edgeId())) {
+        if (graph != null && graph.edges().size() < 350) {
+            builder.append("node [shape=none];\n").append("layout = neato;\n").append("edge [arrowhead=empty color=red];\n");
+
+            for (Edge edge : graph.edges()) {
+                if (context.isUsedEdge(edge.edgeId())) {
+                    builder.append(edge).append("\n");
+                } else {
+                    builder.append(edge).append(" [color=green]").append("\n");
+                }
+            }
+        } else {
+            builder.append("node [label=\".\", shape=none];\n").append("layout = neato;\n").append("edge [arrowhead=empty color=gray dir=none];\n");
+
+            for (Edge edge : graph.edges()) {
                 builder.append(edge).append("\n");
-            } else {
-                builder.append(edge).append(" [color=green]")
-                .append("\n");
             }
         }
 
